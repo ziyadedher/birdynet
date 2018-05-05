@@ -49,10 +49,10 @@ class Game:
                          self._player.position.x
                          < location + config.PLAYER_RADIUS + config.WALL_WIDTH)
             if x_between:
-                y_between = (gap_start - config.PLAYER_RADIUS <
+                y_between = (gap_start + config.PLAYER_RADIUS <
                              self._player.position.y
                              < gap_start
-                             + config.PLAYER_RADIUS - config.WALL_GAP_HEIGHT)
+                             - config.PLAYER_RADIUS + config.WALL_GAP_HEIGHT)
                 if not y_between:
                     if not self._player.is_colliding:
                         self._player.is_colliding = True

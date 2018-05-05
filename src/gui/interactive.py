@@ -1,6 +1,7 @@
 """This module contains a GUI to the game and manages user input."""
 
 import sys
+import time
 import pygame
 from pygame import gfxdraw
 
@@ -25,15 +26,26 @@ class InteractiveGUI:
         pygame.display.set_caption(config.WINDOW_CAPTION)
 
         self.clock = pygame.time.Clock()
+        self._refresh()
 
     def run(self) -> None:
         """Begin execution of the game and GUI and run until terminated."""
+        print("Press any key to begin...")
+        started = False
+        while not started:
+            for event in pygame.event.get():
+                if event.type is pygame.QUIT:
+                    sys.exit()
+                if event.type is pygame.KEYDOWN:
+                    started = True
+
         self.clock.tick()
         while self.game.player.is_alive:
             self._update()
 
     def _update(self) -> None:
         """Update the game gui to update the game and draw."""
+        self.clock.tick()
         strategy.InputStrategy.key_down(False)
         for event in pygame.event.get():
             if event.type is pygame.QUIT:
@@ -44,7 +56,6 @@ class InteractiveGUI:
 
         self.game.update(self.clock.get_time() / 1000)
         self._refresh()
-        self.clock.tick()
 
     def _refresh(self) -> None:
         """Refresh the display to redraw everything."""
