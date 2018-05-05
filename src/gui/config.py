@@ -1,6 +1,4 @@
-"""This module contains static configuration for all aspects
-of the gui.
-"""
+"""This module contains static configuration for all aspects of the gui."""
 
 from pygame import Color
 
