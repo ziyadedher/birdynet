@@ -5,6 +5,7 @@ import pygame
 from pygame import gfxdraw
 
 from gui import config
+from game import strategy
 from game.game import Game
 
 
@@ -33,9 +34,13 @@ class InteractiveGUI:
 
     def _update(self) -> None:
         """Update the game gui to update the game and draw."""
+        strategy.InputStrategy.key_down(False)
         for event in pygame.event.get():
             if event.type is pygame.QUIT:
                 sys.exit()
+            if event.type is pygame.KEYDOWN:
+                if event.key is pygame.K_SPACE:
+                    strategy.InputStrategy.key_down(True)
 
         self.game.update(self.clock.get_time() / 1000)
         self._refresh()

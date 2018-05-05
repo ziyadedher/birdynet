@@ -45,19 +45,28 @@ class Player:
         """Get whether or not the player is still alive."""
         return self._position.y < config.HEIGHT - config.PLAYER_RADIUS
 
-    # TODO: fix movement code
+    def _update_velocity(self, delta_velocity: Vector) -> None:
+        """Update player velocity by the given <delta_velocity>."""
+        self._velocity += delta_velocity
+        self._velocity = self._velocity.bound_magnitude(
+            config.PLAYER_MAX_SPEED)
+
+    def _update_position(self, delta_position: Vector) -> None:
+        """Update player position by the given <delta_position>."""
+        self._position += delta_position
+
     def jump(self) -> None:
         """Give the player an upward impulse to jump."""
-        x, y = self._velocity.x, self._velocity.y
-        self._velocity = Vector(x, min(y + 500, config.PLAYER_MAX_SPEED))
+        if self._position.y < config.PLAYER_RADIUS:
+            return
+        self._velocity = Vector(self._velocity.x, 0)
+        self._update_velocity(Vector(0, -config.PLAYER_JUMP))
 
     def update(self, delta_time: float) -> None:
         """Update the player based off the given <delta_time>."""
-        x, y = self._velocity.x, self._velocity.y
-        self._velocity = Vector(x, y - (config.GRAVITY * delta_time))
+        self._update_velocity(Vector(0, config.GRAVITY * delta_time))
 
         if self._strat.get_move():
             self.jump()
 
-        x, y = self._position.x, self._position.y
-        self._position = Vector(x, y - (self._velocity.y * delta_time))
+        self._update_position(self._velocity * delta_time)

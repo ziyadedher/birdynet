@@ -1,8 +1,5 @@
 """This module contains strategies used to play the game."""
 
-import pygame
-import time
-
 
 class Strategy:
     """Defines an abstract strategy that can be built on."""
@@ -34,17 +31,17 @@ class IdleStrategy(Strategy):
 class InputStrategy(Strategy):
     """Defines a strategy to move when the user hits space."""
 
-    REPEAT_TIME: float = 0.1
+    _key_down_this_frame: bool = False
 
     def __init__(self) -> None:
         """Initialize this input strategy."""
-        self._last_input_time = 0
         super().__init__()
+
+    @classmethod
+    def key_down(cls, val: bool):
+        """Flag that the input key has or has not been pressed this frame."""
+        cls._key_down_this_frame = val
 
     def get_move(self) -> bool:
         """Return whether or not to move the player."""
-        allowed = time.time() - self._last_input_time >= self.REPEAT_TIME
-        if allowed and pygame.key.get_pressed()[pygame.K_SPACE]:
-            self._last_input_time = time.time()
-            return True
-        return False
+        return self._key_down_this_frame
