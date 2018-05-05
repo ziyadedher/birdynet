@@ -38,10 +38,30 @@ class Game:
 
     def run(self) -> None:
         """Begin the update loop of this game and run until terminated."""
-        while True:
+        while self._player.is_alive:
             self.update()
+
+    def _detect_collisions(self) -> None:
+        """Detect any collisions that may have happened."""
+        # FIXME
+        for location, gap_start in self._world.get_wall_information():
+            x_between = (location - config.PLAYER_RADIUS <
+                         self._player.position.x
+                         < location + config.PLAYER_RADIUS + config.WALL_WIDTH)
+            if x_between:
+                y_between = (gap_start - config.PLAYER_RADIUS <
+                             self._player.position.y
+                             < gap_start
+                             + config.PLAYER_RADIUS - config.WALL_GAP_HEIGHT)
+                if not y_between:
+                    if not self._player.is_colliding:
+                        self._player.is_colliding = True
+                        self._player.kill()
+                    return
+        self._player.is_colliding = False
 
     def update(self, delta_time: float = 0.001) -> None:
         """Update the game based off the given <delta_time>."""
         self._player.update(delta_time)
         self._world.update(delta_time)
+        self._detect_collisions()

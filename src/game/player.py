@@ -17,6 +17,10 @@ class Player:
     _velocity: Vector
     _strat: Strategy
 
+    deaths: int
+    is_alive: bool
+    is_colliding: bool
+
     def __init__(self) -> None:
         """Initialize a player with the optional given strategy <strat>.
 
@@ -25,6 +29,10 @@ class Player:
         self._position = Vector(*config.STARTING_COORDINATES)
         self._velocity = Vector.zero()
         self._strat = IdleStrategy()
+
+        self.deaths = 0
+        self.is_alive = True
+        self.is_colliding = False
 
     def attach_strategy(self, strat: Strategy) -> None:
         """Attach the given strategy to control the player."""
@@ -45,11 +53,6 @@ class Player:
         """Get the velocity of this player."""
         return self._velocity.duplicate()
 
-    @property
-    def is_alive(self) -> bool:
-        """Get whether or not the player is still alive."""
-        return self._position.y < config.HEIGHT - config.PLAYER_RADIUS
-
     def _update_velocity(self, delta_velocity: Vector) -> None:
         """Update player velocity by the given <delta_velocity>."""
         self._velocity += delta_velocity
@@ -59,6 +62,14 @@ class Player:
     def _update_position(self, delta_position: Vector) -> None:
         """Update player position by the given <delta_position>."""
         self._position += delta_position
+        if self._position.y > config.HEIGHT - config.PLAYER_RADIUS:
+            self.deaths += 1
+            self.is_alive = False
+
+    def kill(self) -> None:
+        """Kill this player."""
+        self.deaths += 1
+        print("You died a total of " + str(self.deaths) + " times.")
 
     def jump(self) -> None:
         """Give the player an upward impulse to jump."""

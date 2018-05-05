@@ -56,6 +56,7 @@ class World:
         if self._walls[0].location < -config.WALL_WIDTH:
             self._walls.pop(0)
 
+        # FIXME
         if self._walls[-1].location < config.WIDTH - config.WALL_SPACING:
             gap = random.randint(config.WALL_GAP_PADDING,
                                  config.HEIGHT - config.WALL_GAP_HEIGHT
