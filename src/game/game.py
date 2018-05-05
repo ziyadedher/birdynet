@@ -1,13 +1,12 @@
 """This module contains an I/O interface to the game.
 """
 
-from typing import Optional
+from typing import Optional, Tuple
 
-import time
-
-from player import Player
-from world import World
-from strategy import Strategy, IdleStrategy
+from game import config
+from game.player import Player
+from game.world import World
+from game.strategy import Strategy, IdleStrategy
 
 
 class Game:
@@ -26,6 +25,12 @@ class Game:
         self.attach_strategy(strat)
 
     @property
+    def size(self) -> Tuple[int, int]:
+        """Get the size of the game.
+        """
+        return config.SIZE
+
+    @property
     def player(self) -> Player:
         """Get the current player of this game.
         """
@@ -38,21 +43,17 @@ class Game:
         return self._world
 
     def attach_strategy(self, strat: Strategy) -> None:
-        """Attache the given strategy to the game to control the player.
+        """Attach the given strategy to the game to control the player.
         """
         self._strat = strat if strat else IdleStrategy()
 
-    def begin(self) -> None:
+    def run(self) -> None:
         """Begin the update loop of this game and run until terminated.
         """
-        past_time = time.time()
         while True:
-            delta_time = time.time() - past_time
-            past_time += delta_time
+            self._update()
 
-            self._update(delta_time)
-
-    def _update(self, delta_time: float) -> None:
+    def _update(self, delta_time: float = 1) -> None:
         """Update the game based off the given <delta_time>.
         """
         # TODO: implement
