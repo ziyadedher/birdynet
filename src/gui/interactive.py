@@ -54,12 +54,22 @@ class InteractiveGUI:
 
     def _draw_all(self) -> None:
         """Draw all elements of the game."""
-        self._draw_world()
         self._draw_player()
+        self._draw_world()
 
     def _draw_world(self) -> None:
         """Draw the world."""
-        # TODO: implement
+        width = self.game.world.wall_width
+        gap_height = self.game.world.wall_gap_height
+        for location, gap_start in self.game.world.get_wall_information():
+            gfxdraw.box(self.surface,
+                        pygame.Rect(location, 0, width, gap_start),
+                        config.WALL_COLOR)
+            gap_end = gap_start + gap_height
+            gfxdraw.box(self.surface,
+                        pygame.Rect(location, gap_end,
+                                    width, self.game.size[1] - gap_end),
+                        config.WALL_COLOR)
 
     def _draw_player(self) -> None:
         """Draw the player."""

@@ -41,6 +41,11 @@ class Player:
         return self._position.duplicate()
 
     @property
+    def velocity(self) -> Tuple[float, float]:
+        """Get the velocity of this player."""
+        return self._velocity.duplicate()
+
+    @property
     def is_alive(self) -> bool:
         """Get whether or not the player is still alive."""
         return self._position.y < config.HEIGHT - config.PLAYER_RADIUS

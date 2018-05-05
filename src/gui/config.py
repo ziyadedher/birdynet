@@ -5,11 +5,11 @@ from pygame import Color
 
 # Window configuration
 WINDOW_CAPTION: str = "Birdynet"
-BACKGROUND_COLOR: Color = Color("black")
+BACKGROUND_COLOR: Color = Color("cadetblue4")
 
 # World configuration
-WALL_COLOR: Color = Color("red")
+WALL_COLOR: Color = Color("lightcoral")
 GROUND_COLOR: Color = Color("green")
 
 # Player configuration
-PLAYER_COLOR: Color = Color("blue")
+PLAYER_COLOR: Color = Color("cornsilk")
