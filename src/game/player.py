@@ -17,9 +17,10 @@ class Player:
     _velocity: Vector
     _strat: Strategy
 
+    _is_colliding: bool
+
     deaths: int
     is_alive: bool
-    is_colliding: bool
 
     def __init__(self) -> None:
         """Initialize a player with the optional given strategy <strat>.
@@ -30,9 +31,10 @@ class Player:
         self._velocity = Vector.zero()
         self._strat = IdleStrategy()
 
+        self._is_colliding = False
+
         self.deaths = 0
         self.is_alive = True
-        self.is_colliding = False
 
     def attach_strategy(self, strat: Strategy) -> None:
         """Attach the given strategy to control the player."""
@@ -65,6 +67,12 @@ class Player:
         if self._position.y > config.HEIGHT - config.PLAYER_RADIUS:
             self.deaths += 1
             self.is_alive = False
+
+    def set_colliding(self, is_colliding: bool) -> None:
+        """Flag the state of player collision."""
+        if not self._is_colliding and is_colliding:
+            self.kill()
+        self._is_colliding = is_colliding
 
     def kill(self) -> None:
         """Kill this player."""

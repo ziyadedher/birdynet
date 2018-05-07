@@ -43,22 +43,20 @@ class Game:
 
     def _detect_collisions(self) -> None:
         """Detect any collisions that may have happened."""
-        # FIXME
+        # Do not ask why, but this works pretty well.
         for location, gap_start in self._world.get_wall_information():
-            x_between = (location - config.PLAYER_RADIUS <
-                         self._player.position.x
-                         < location + config.PLAYER_RADIUS + config.WALL_WIDTH)
+            radius = self._player.radius
+            x_between = (0 <
+                         self._player.position.x - location + radius
+                         < 2 * radius + self._world.wall_width)
             if x_between:
-                y_between = (gap_start + config.PLAYER_RADIUS <
-                             self._player.position.y
-                             < gap_start
-                             - config.PLAYER_RADIUS + config.WALL_GAP_HEIGHT)
+                y_between = (2 * radius <
+                             self._player.position.y - gap_start + radius
+                             < self._world.wall_gap_height)
                 if not y_between:
-                    if not self._player.is_colliding:
-                        self._player.is_colliding = True
-                        self._player.kill()
+                    self._player.set_colliding(True)
                     return
-        self._player.is_colliding = False
+        self._player.set_colliding(False)
 
     def update(self, delta_time: float = 0.001) -> None:
         """Update the game based off the given <delta_time>."""
