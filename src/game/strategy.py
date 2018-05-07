@@ -1,6 +1,7 @@
 """This module contains strategies used to play the game."""
 
 import random
+
 import pygame
 
 from game import config

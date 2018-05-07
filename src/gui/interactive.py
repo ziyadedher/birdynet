@@ -1,13 +1,13 @@
 """This module contains a GUI to the game and manages user input."""
 
 import sys
-import time
+
 import pygame
 from pygame import gfxdraw
 
-from gui import config
 from game import strategy
 from game.game import Game
+from gui import config
 
 
 class InteractiveGUI:

@@ -3,8 +3,8 @@
 from typing import Tuple
 
 from game import config
+from game.strategy import IdleStrategy, Strategy
 from game.utils import Vector
-from game.strategy import Strategy, IdleStrategy
 
 
 class Player:

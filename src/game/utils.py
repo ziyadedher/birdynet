@@ -59,5 +59,4 @@ class Vector:
         """Return a magnitude-bounded copy of this vector."""
         if self.magnitude > bound:
             return self.normalize() * bound
-        else:
-            return self.duplicate()
+        return self.duplicate()

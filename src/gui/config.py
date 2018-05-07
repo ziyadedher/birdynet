@@ -2,7 +2,6 @@
 
 from pygame import Color
 
-
 # Window configuration
 WINDOW_CAPTION: str = "Birdynet"
 BACKGROUND_COLOR: Color = Color("cadetblue4")

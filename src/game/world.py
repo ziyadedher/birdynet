@@ -1,8 +1,7 @@
 """This module contains and manages a game world."""
 
-from typing import List, Tuple
-
 import random
+from typing import List, Tuple
 
 from game import config
 
